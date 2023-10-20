@@ -3,6 +3,11 @@
 require "src/conexao-bd.php";
 require "src/Modelo/Produto.php";
 require "src/Repositorio/ProdutoRepositorio.php";
+require "src/protecao-login.php";
+
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 $produtoRepositorio = new ProdutoRepositorio($pdo);
 $produtos = $produtoRepositorio->buscarTodos();
@@ -29,6 +34,10 @@ $produtos = $produtoRepositorio->buscarTodos();
 
 <body>
   <main>
+    Bem vindo, <?php echo $_SESSION['nome']; ?>.
+    <p>
+        <a href="./src/logout.php">Sair</a>
+    </p>
     <section class="container-admin-banner">
       <img src="img/logo-serenatto-horizontal.png" class="logo-admin" alt="logo-serenatto">
       <h1>Admistração Serenatto</h1>
@@ -67,9 +76,6 @@ $produtos = $produtoRepositorio->buscarTodos();
         </tbody>
       </table>
       <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
-      <form action="#" method="post">
-        <input type="submit" class="botao-cadastrar" value="Baixar Relatório" />
-      </form>
     </section>
   </main>
 </body>
